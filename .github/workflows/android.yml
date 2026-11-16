@@ -1,0 +1,49 @@
+name: Android app
+
+on:
+  push:
+    branches: [main]
+    paths: ['app/**', '.github/workflows/android.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci
+      - run: npm run build
+      - name: Create the Android project
+        run: npm run native:android
+      - name: Build debug APK
+        working-directory: app/android
+        run: ./gradlew --no-daemon assembleDebug
+      - name: Rename APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk carenuity-flasher.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: carenuity-flasher-apk
+          path: app/carenuity-flasher.apk
+      - name: Publish as pre-release "android-latest"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view android-latest >/dev/null 2>&1 || \
+            gh release create android-latest --prerelease --title "Android app (latest build)" \
+              --notes "Debug build of the Carenuity Flasher app, rebuilt on every change. Install by opening the APK on an Android phone."
+          gh release upload android-latest carenuity-flasher.apk --clobber

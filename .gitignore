@@ -1,0 +1,10 @@
+node_modules/
+dist/
+app/android/
+app/ios/
+firmware/build/
+firmware/sdkconfig
+firmware/sdkconfig.old
+firmware/managed_components/
+firmware/dependencies.lock
+.DS_Store

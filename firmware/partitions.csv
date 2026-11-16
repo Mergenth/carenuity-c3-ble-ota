@@ -1,0 +1,13 @@
+# Carenuity BLE-OTA layout for ESP32-C3 boards with 4 MB flash (C3-Mini)
+#
+# loader : BLE-OTA loader (this project). Started by the bootloader after every hard reset.
+# app0   : the sketch that is installed over Bluetooth. 3 MB, enough for "huge app" builds.
+# spiffs : file system for sketches that use SPIFFS / LittleFS (label "spiffs" is the Arduino default).
+#
+# Name,    Type, SubType,  Offset,   Size
+nvs,       data, nvs,      0x9000,   0x5000
+otadata,   data, ota,      0xe000,   0x2000
+loader,    app,  factory,  0x10000,  0x80000
+app0,      app,  ota_0,    0x90000,  0x300000
+spiffs,    data, spiffs,   0x390000, 0x60000
+coredump,  data, coredump, 0x3F0000, 0x10000

@@ -1,0 +1,15 @@
+{
+  "appId": "com.carenuity.wirelessflasher",
+  "appName": "Carenuity Flasher",
+  "webDir": "dist",
+  "plugins": {
+    "BluetoothLe": {
+      "displayStrings": {
+        "scanning": "Looking for a board…",
+        "cancel": "Cancel",
+        "availableDevices": "Boards in update mode",
+        "noDeviceFound": "No board found. Press RESET on the board."
+      }
+    }
+  }
+}

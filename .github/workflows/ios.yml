@@ -1,0 +1,28 @@
+name: iOS app (compile check)
+
+# Compiles the iOS app for the simulator without signing. A build for a real
+# iPhone needs an Apple Developer account: open app/ios/App in Xcode on a Mac.
+on:
+  workflow_dispatch:
+
+jobs:
+  ios:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run build
+      - name: Create the iOS project
+        run: npm run native:ios
+      - name: Compile for the simulator
+        working-directory: app/ios/App
+        run: >
+          xcodebuild -project App.xcodeproj -scheme App -configuration Debug
+          -sdk iphonesimulator -destination 'generic/platform=iOS Simulator'
+          CODE_SIGNING_ALLOWED=NO build

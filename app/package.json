@@ -1,0 +1,27 @@
+{
+  "name": "carenuity-wireless-flasher",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Flash Carenuity Solution Builder apps onto a prepared ESP32-C3 (C3-Mini) over Bluetooth LE",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "node --test test/*.test.mjs",
+    "native:android": "cap add android && node scripts/native-setup.mjs android && cap sync android",
+    "native:ios": "cap add ios && node scripts/native-setup.mjs ios && cap sync ios",
+    "sync": "cap sync"
+  },
+  "dependencies": {
+    "@capacitor-community/bluetooth-le": "^8.3.0",
+    "@capacitor/core": "^8.6.2"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/cli": "^8.6.2",
+    "@capacitor/ios": "^8.6.2",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.8"
+  }
+}

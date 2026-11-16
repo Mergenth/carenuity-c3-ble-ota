@@ -1,0 +1,35 @@
+menu "Carenuity BLE-OTA loader"
+
+    config LOADER_WINDOW_S
+        int "Update window after a hard reset (seconds)"
+        range 2 120
+        default 8
+        help
+            After power-on or a press of the reset button the board is
+            visible over Bluetooth LE for this many seconds. If no phone
+            connects, the installed sketch is started.
+
+    config LOADER_BOOT_BUTTON_GPIO
+        int "GPIO of the BOOT button (-1 to disable)"
+        range -1 21
+        default 9
+        help
+            Pressing this button (active low) while the update window is
+            open keeps the board in update mode until the next reset.
+
+    config LOADER_NAME_PREFIX
+        string "Bluetooth name prefix"
+        default "Carenuity-OTA"
+        help
+            The advertised name is "<prefix>-XXXX" where XXXX are the last
+            two bytes of the Bluetooth address.
+
+    config LOADER_EMULATOR_TEST
+        bool "Emulator test build (no Bluetooth)"
+        default n
+        help
+            Skips the Bluetooth start-up so that the reset policy of the
+            bootloader and the update window can be tested in QEMU, which
+            does not emulate the radio. Never enable this for a real board.
+
+endmenu
