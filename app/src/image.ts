@@ -122,6 +122,14 @@ export function findAppImage(parts: FirmwarePart[]): AppImage {
   };
 }
 
+/**
+ * True when the image is the Carenuity BLE-OTA loader itself. The loader is the
+ * base firmware; it is installed by USB and must not be sent as an app.
+ */
+export function isBaseFirmware(app: AppImage): boolean {
+  return app.projectName === 'carenuity_ble_ota_loader';
+}
+
 /** Checks the SHA-256 that ESP-IDF appends to an image. Resolves true when there is none. */
 export async function verifyImageHash(app: AppImage): Promise<boolean> {
   if (!app.hashAppended) return true;

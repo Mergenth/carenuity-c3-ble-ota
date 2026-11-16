@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { sendImage } from '../src/ota.ts';
 import { crc32 } from '../src/protocol.ts';
-import { findAppImage, verifyImageHash } from '../src/image.ts';
+import { findAppImage, isBaseFirmware, verifyImageHash } from '../src/image.ts';
 import { SimLoader } from './sim-loader.mjs';
 
 const fast = { ackTimeout: 40, readyTimeout: 500, doneTimeout: 500 };
@@ -73,6 +73,7 @@ test('app image is cut out of a merged flash image', { skip: !real }, async () =
   assert.equal(found.foundAt, 0x10000);
   assert.equal(found.projectName, 'carenuity_ble_ota_loader');
   assert.equal(found.chipId, 5);
+  assert.ok(isBaseFirmware(found));
   assert.ok(await verifyImageHash(found));
 });
 

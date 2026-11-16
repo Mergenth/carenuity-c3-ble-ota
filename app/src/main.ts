@@ -1,7 +1,7 @@
 import './style.css';
 import { loadApps, loadSolutions, downloadFirmware, type Solution, type SolutionApp } from './api.ts';
 import { Board, bluetoothAvailable } from './ble.ts';
-import { findAppImage, verifyImageHash, type FirmwarePart } from './image.ts';
+import { findAppImage, isBaseFirmware, verifyImageHash, type FirmwarePart } from './image.ts';
 import { sendImage } from './ota.ts';
 
 const SOLUTION_BUILDER = 'https://solutions.carenuity.com';
@@ -293,6 +293,9 @@ async function flash(title: string, getParts: (onProgress: (got: number, total: 
 
     go('check');
     const app = findAppImage(parts);
+    if (isBaseFirmware(app)) {
+      throw new Error('This is the base firmware that is already on your board. It is installed by USB and cannot be sent over Bluetooth. Pick another app.');
+    }
     if (!(await verifyImageHash(app))) throw new Error('The downloaded app is damaged. Please try again.');
 
     go('send');
