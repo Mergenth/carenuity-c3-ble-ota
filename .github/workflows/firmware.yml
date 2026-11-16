@@ -20,7 +20,7 @@ jobs:
           command: >
             idf.py build &&
             cd build &&
-            python -m esptool --chip esp32c3 merge-bin
+            python -m esptool --chip esp32c3 merge_bin
             -o Carenuity-BLE-OTA-Loader-C3-Mini.ino.bin @flash_args
       - uses: actions/upload-artifact@v4
         with:

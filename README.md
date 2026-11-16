@@ -82,7 +82,7 @@ docs/       PROTOCOL.md, the Bluetooth protocol between app and loader
 # ESP-IDF v5.4.x, target esp32c3
 cd firmware
 idf.py build
-cd build && python -m esptool --chip esp32c3 merge-bin -o loader.ino.bin @flash_args
+cd build && python -m esptool --chip esp32c3 merge_bin -o loader.ino.bin @flash_args
 ```
 
 Settings (update window, BOOT button pin, Bluetooth name) are under
